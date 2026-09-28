@@ -1,6 +1,6 @@
 # grilling
 
-A Claude Code skill that scopes a project in a few short question rounds: ranked questions, numbered options, one recommendation, and a written record so nothing drifts.
+An [Agent Skill](https://agentskills.io) that scopes a project in a few short question rounds: ranked questions, numbered options, one recommendation, and a written record so nothing drifts.
 
 ## What it does
 
@@ -11,25 +11,42 @@ A Claude Code skill that scopes a project in a few short question rounds: ranked
 - Looks up facts itself (files, APIs, a logged-in web app) rather than asking you for them, read-only, and asks for access as a normal numbered question when it needs it.
 - Writes every round's questions and answers to `grilling.md` in the project folder, so the next session picks up the decisions instead of the interview.
 
+It works in any coding agent that reads the Agent Skills format (a `SKILL.md` with `name` and `description` frontmatter). It was written in Claude Code; other platforms are listed below.
+
 ## Install
 
-Copy `skills/grilling` into your Claude Code skills folder:
+Clone the repo, then copy `skills/grilling` into the skills folder of the tool you use. Personal paths make the skill available everywhere; project paths make it available in that repo only and can be committed alongside the code.
 
 ```bash
-git clone https://github.com/<you>/grilling.git && cp -r grilling/skills/grilling ~/.claude/skills/grilling
+git clone https://github.com/bmwillrath/grilling.git
 ```
 
-For a single project instead of every project, copy it into that project's `.claude/skills/` folder.
+| Tool | Personal | Project |
+| --- | --- | --- |
+| Claude Code | `~/.claude/skills/grilling` | `.claude/skills/grilling` |
+| OpenAI Codex CLI | `~/.codex/skills/grilling` | `.codex/skills/grilling` |
+| Cursor | `~/.cursor/skills/grilling` | `.cursor/skills/grilling` |
+| Gemini CLI | `~/.gemini/skills/grilling` | `.gemini/skills/grilling` |
+| GitHub Copilot | `~/.copilot/skills/grilling` | `.github/skills/grilling` |
+| OpenCode | `~/.config/opencode/skill/grilling` | `.opencode/skill/grilling` |
+
+For example, on Claude Code:
+
+```bash
+cp -r grilling/skills/grilling ~/.claude/skills/grilling
+```
+
+Several of these tools also read `.claude/skills/` in a project, so one copy there often covers more than one agent. Paths are current as of September 2026; if your tool moves them, check its skills documentation. Any other tool that implements the Agent Skills standard works the same way: put the `grilling` folder where it looks for skills.
 
 ## Use
 
-Run `/grilling`, or just say it:
+Invoke it by name (`/grilling` in Claude Code, `$grilling` in Codex, or however your tool invokes skills), or just say it:
 
 - "grill me on this"
 - "stress-test this plan"
 - "scope this before we build it"
 
-Claude asks a round, you answer with numbers, it asks the next round. When no remaining question would change what gets built, it lists the settled decisions and waits for your confirmation before doing anything.
+The agent asks a round, you answer with numbers, it asks the next round. When no remaining question would change what gets built, it lists the settled decisions and waits for your confirmation before doing anything.
 
 ## What a round looks like
 
